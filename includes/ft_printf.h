@@ -15,6 +15,7 @@
 
 # include <stdarg.h>
 # include <locale.h>
+# include <stdint.h>
 # include "libft.h"
 # include "ft_printf_enum.h"
 # include "colors.h"

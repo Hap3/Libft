@@ -38,9 +38,6 @@ static void		ft_width_hexa(t_param *param, unsigned long long arg)
 
 static void		ft_hashtag_hexa(t_param *param, unsigned long long arg)
 {
-	char	*str;
-
-	str = NULL;
 	if (arg == 0)
 		return ;
 	(FLAGS & HASHTAG || WIDTH == 0 ? ft_buffer('0', param) : 0);

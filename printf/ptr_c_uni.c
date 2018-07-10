@@ -17,7 +17,7 @@ static int				ft_two_oct(wchar_t arg, t_param *param)
 	LEN = 2;
 	if (!(FLAGS & MINUS))
 		ft_width_char(param);
-	if (MB_CUR_MAX < LEN)
+	if ((int)MB_CUR_MAX < LEN)
 		return (-1);
 	ft_buffer((char)(0xC0 | ((arg >> 6) & 0x1F)), param);
 	ft_buffer((char)(0x80 | (arg & 0x3F)), param);
@@ -29,7 +29,7 @@ static int				ft_three_oct(wchar_t arg, t_param *param)
 	LEN = 3;
 	if (!(FLAGS & MINUS))
 		ft_width_char(param);
-	if (MB_CUR_MAX < LEN)
+	if ((int)MB_CUR_MAX < LEN)
 		return (-1);
 	ft_buffer((char)(0xE0 | ((arg >> 12) & 0x1F)), param);
 	ft_buffer((char)(0x80 | ((arg >> 6) & 0x3F)), param);
@@ -40,7 +40,7 @@ static int				ft_three_oct(wchar_t arg, t_param *param)
 static int				ft_four_oct(wchar_t arg, t_param *param)
 {
 	LEN = 4;
-	if (MB_CUR_MAX < LEN)
+	if ((int)MB_CUR_MAX < LEN)
 		return (-1);
 	if (!(FLAGS & MINUS))
 		ft_width_char(param);
@@ -76,10 +76,8 @@ int						ptr_c_uni(va_list ap, t_param *param)
 {
 	wchar_t		arg;
 	int			a;
-	int			ret;
 
 	arg = va_arg(ap, wchar_t);
-	ret = 0;
 	if ((arg >= 0xD800 && arg <= 0xDFFF) || arg >= 0x10FFFF || arg < 0)
 		return (-1);
 	a = 0;
