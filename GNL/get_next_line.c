@@ -6,7 +6,7 @@
 /*   By: cpaquet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/20 15:49:22 by cpaquet           #+#    #+#             */
-/*   Updated: 2018/06/11 17:21:51 by cpaquet          ###   ########.fr       */
+/*   Updated: 2018/09/19 13:39:46 by cpaquet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,22 +95,21 @@ static int			ft_use_fd(t_gnl *gnl_info, char **line)
 	tmp = NULL;
 	while (FD_REMAIN[index] != '\0' && FD_REMAIN[index] != '\n')
 		index++;
+	if (index == 0)
+		return (1);
 	*line = ft_strnew(index);
 	ft_strncpy(*line, FD_REMAIN, index);
 	if (FD_REMAIN[index] == '\n')
-		index += 1;
+		index++;
 	if (FD_REMAIN[0] != '\0')
 	{
 		gnl_info->ret_read = 1;
 		if (!(tmp = ft_strdup(FD_REMAIN + index)))
-		{
-			gnl_info->ret_read = -1;
-			return (-1);
-		}
+			return (gnl_info->ret_read = -1);
 	}
 	ft_strdel(&FD_REMAIN);
 	FD_REMAIN = tmp;
-	if (FD_REMAIN == NULL)
+	if (!FD_REMAIN)
 		ft_free_fd(&(gnl_info->fd_save), gnl_info->current_fd, 0);
 	return (1);
 }
@@ -119,8 +118,6 @@ int					get_next_line(const int fd, char **line)
 {
 	int				ret;
 	static t_gnl	*gnl_info = NULL;
-
-
 
 	if (BUFF_SIZE_GNL == 0 || !(line) || fd < 0)
 		return (-1);
