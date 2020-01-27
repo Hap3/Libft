@@ -17,17 +17,17 @@ unsigned long long		ft_cast_unbr(va_list ap, t_param *param)
 	unsigned long long arg;
 
 	arg = 0;
-	if (SIZES == 0)
+	if (param->sizes == 0)
 		arg = (unsigned long long)(va_arg(ap, unsigned));
-	else if (SIZES & J)
+	else if (param->sizes & J)
 		arg = (unsigned long long)va_arg(ap, uintmax_t);
-	else if (SIZES & LL)
+	else if (param->sizes & LL)
 		arg = va_arg(ap, unsigned long long int);
-	else if (SIZES & L)
+	else if (param->sizes & L)
 		arg = (unsigned long long)va_arg(ap, long unsigned int);
-	else if (SIZES & HH)
+	else if (param->sizes & HH)
 		arg = (unsigned long long)((unsigned char)va_arg(ap, unsigned int));
-	else if (SIZES & H)
+	else if (param->sizes & H)
 		arg = (uintmax_t)((unsigned short)va_arg(ap, unsigned int));
 	else
 		arg = (unsigned long long)(va_arg(ap, size_t));
@@ -39,23 +39,23 @@ long long				ft_cast_nbr(va_list ap, t_param *param)
 	long long arg;
 
 	arg = 0;
-	if (SIZES == 0)
+	if (param->sizes == 0)
 		arg = (long long)(va_arg(ap, int));
-	else if (SIZES & J)
+	else if (param->sizes & J)
 		arg = (long long)va_arg(ap, intmax_t);
-	else if (SIZES & LL)
+	else if (param->sizes & LL)
 		arg = va_arg(ap, long long);
-	else if (SIZES & L)
+	else if (param->sizes & L)
 		arg = (long long)va_arg(ap, long int);
-	else if (SIZES & HH)
+	else if (param->sizes & HH)
 		arg = (long long)((char)va_arg(ap, int));
-	else if (SIZES & H)
+	else if (param->sizes & H)
 		arg = (long long)((short)va_arg(ap, int));
-	else if (SIZES & Z)
+	else if (param->sizes & Z)
 		arg = (long long)va_arg(ap, size_t);
 	if (arg < 0)
 	{
-		NEG = 1;
+		param->neg_param = 1;
 		arg = -arg;
 	}
 	return (arg);

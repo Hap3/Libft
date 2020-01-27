@@ -24,13 +24,13 @@ void		ft_calcul_len(wchar_t *arg, t_param *param)
 		while (arg[index] >> a)
 			a++;
 		if (a <= 8)
-			LEN++;
+			param->len_param++;
 		else if (a > 8 && a < 12)
-			LEN += 2;
+			param->len_param += 2;
 		else if (a >= 12 && a < 17)
-			LEN += 3;
+			param->len_param += 3;
 		else if (a >= 17 && a < 22)
-			LEN += 4;
+			param->len_param += 4;
 		index++;
 	}
 }

@@ -18,13 +18,13 @@ void		ft_width_char(t_param *param)
 	char	c;
 
 	i = 0;
-	if (WIDTH <= LEN)
+	if (param->width <= param->len_param)
 		return ;
-	if (FLAGS & ZERO)
+	if (param->flags & ZERO)
 		c = '0';
 	else
 		c = ' ';
-	while (i < WIDTH - LEN)
+	while (i < param->width - param->len_param)
 	{
 		ft_buffer(c, param);
 		i++;
@@ -35,14 +35,14 @@ int			ptr_char(va_list ap, t_param *param)
 {
 	int		arg;
 
-	LEN = 1;
-	if (SIZES & L)
+	param->len_param = 1;
+	if (param->sizes & L)
 		return (ptr_c_uni(ap, param));
 	arg = va_arg(ap, int);
-	if (!(FLAGS & MINUS))
+	if (!(param->flags & MINUS))
 		ft_width_char(param);
 	ft_buffer(arg, param);
-	if (FLAGS & MINUS)
+	if (param->flags & MINUS)
 		ft_width_char(param);
 	return (1);
 }

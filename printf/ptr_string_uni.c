@@ -16,11 +16,11 @@ static int			ft_str_two_oct(wchar_t arg, t_param *param)
 {
 	if (MB_CUR_MAX < 2)
 		return (-1);
-	if (PRE_ON && PRECISION < 2)
+	if (param->precision_on && param->precision < 2)
 		return (0);
 	ft_buffer((0xC0 | ((arg >> 6) & 0x1F)), param);
 	ft_buffer((0x80 | (arg & 0x3F)), param);
-	PRECISION -= 2;
+	param->precision -= 2;
 	return (1);
 }
 
@@ -28,12 +28,12 @@ static int			ft_str_three_oct(wchar_t arg, t_param *param)
 {
 	if (MB_CUR_MAX < 3)
 		return (-1);
-	if (PRE_ON && PRECISION < 3)
+	if (param->precision_on && param->precision < 3)
 		return (0);
 	ft_buffer((0xE0 | ((arg >> 12) & 0x1F)), param);
 	ft_buffer((0x80 | ((arg >> 6) & 0x3F)), param);
 	ft_buffer((0x80 | (arg & 0x3F)), param);
-	PRECISION -= 3;
+	param->precision -= 3;
 	return (1);
 }
 
@@ -41,13 +41,13 @@ static int			ft_str_four_oct(wchar_t arg, t_param *param)
 {
 	if (MB_CUR_MAX < 4)
 		return (-1);
-	if (PRE_ON && PRECISION < 4)
+	if (param->precision_on && param->precision < 4)
 		return (0);
 	ft_buffer((0xF0 | ((arg >> 18) & 0x1F)), param);
 	ft_buffer((0x80 | ((arg >> 12) & 0x3F)), param);
 	ft_buffer((0x80 | ((arg >> 6) & 0x3F)), param);
 	ft_buffer((0x80 | (arg & 0x3F)), param);
-	PRECISION -= 4;
+	param->precision -= 4;
 	return (1);
 }
 
@@ -62,10 +62,10 @@ static int			ft_c_uni(t_param *param, wchar_t arg)
 		a++;
 	if (a <= 8)
 	{
-		if (PRE_ON && PRECISION < 1)
+		if (param->precision_on && param->precision < 1)
 			return (0);
 		ft_buffer(arg, param);
-		PRECISION--;
+		param->precision--;
 	}
 	else if (a > 8 && a < 12)
 		ret = ft_str_two_oct(arg, param);
@@ -87,8 +87,8 @@ int					ptr_string_uni(va_list ap, t_param *param)
 	arg = va_arg(ap, wchar_t *);
 	(arg == NULL ? arg = L"(null)" : 0);
 	ft_calcul_len(arg, param);
-	(PRE_ON && LEN > PRECISION ? LEN = 0 : 0);
-	(!(FLAGS & MINUS) ? ft_width_char(param) : 0);
+	(param->precision_on && param->len_param > param->precision ? param->len_param = 0 : 0);
+	(!(param->flags & MINUS) ? ft_width_char(param) : 0);
 	while (arg[i] && ret == 1)
 	{
 		if ((arg[i] >= 0xD800 && arg[i] <= 0xDFFF) || arg[i] > 0x10FFFF
@@ -98,6 +98,6 @@ int					ptr_string_uni(va_list ap, t_param *param)
 			return (-1);
 		i++;
 	}
-	(FLAGS & MINUS ? ft_width_char(param) : 0);
+	(param->flags & MINUS ? ft_width_char(param) : 0);
 	return (1);
 }

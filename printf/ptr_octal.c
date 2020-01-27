@@ -18,17 +18,17 @@ static void		ft_width_octal(t_param *param)
 	int		i;
 	int		tmp;
 
-	tmp = LEN;
+	tmp = param->len_param;
 	i = 0;
-	if (WIDTH <= LEN || WIDTH <= PRECISION)
+	if (param->width <= param->len_param || param->width <= param->precision)
 		return ;
-	(FLAGS & HASHTAG ? WIDTH-- : 0);
-	(PRECISION > LEN ? tmp = PRECISION : tmp);
-	if (FLAGS & ZERO)
+	(param->flags & HASHTAG ? param->width-- : 0);
+	(param->precision > param->len_param ? tmp = param->precision : tmp);
+	if (param->flags & ZERO)
 		c = '0';
 	else
 		c = ' ';
-	while (i < WIDTH - tmp)
+	while (i < param->width - tmp)
 	{
 		ft_buffer(c, param);
 		i++;
@@ -38,8 +38,8 @@ static void		ft_width_octal(t_param *param)
 static void		ft_hashtag_octal(t_param *param)
 {
 	ft_buffer('0', param);
-	if (PRECISION > 0)
-		PRECISION--;
+	if (param->precision > 0)
+		param->precision--;
 }
 
 int				ptr_octal(va_list ap, t_param *param)
@@ -48,15 +48,15 @@ int				ptr_octal(va_list ap, t_param *param)
 	unsigned long long	arg;
 
 	base = "01234567";
-	(TYPE & O && (!(SIZES & LL)) ? SIZES = S | L : 0);
+	(param->type & O && (!(param->sizes & LL)) ? param->sizes = S | L : 0);
 	arg = (unsigned long long)ft_cast_unbr(ap, param);
-	ARG_STR = ft_itoa_base_char(arg, base);
-	LEN = ft_strlen(ARG_STR);
-	(arg == 0 && (PRE_ON || FLAGS & HASHTAG) ? LEN = 0 : 0);
-	(!(FLAGS & MINUS) ? ft_width_octal(param) : 0);
-	(FLAGS & HASHTAG ? ft_hashtag_octal(param) : 0);
-	(!(arg == 0 && PRE_ON && PRECISION == 0) ? ft_precision_nbr(param) : 0);
-	(FLAGS & MINUS ? ft_width_octal(param) : 0);
-	(arg != 0 && ARG_STR != NULL ? ft_strdel(&ARG_STR) : 0);
+	param->arg_str = ft_itoa_base_char(arg, base);
+	param->len_param = ft_strlen(param->arg_str);
+	(arg == 0 && (param->precision_on || param->flags & HASHTAG) ? param->len_param = 0 : 0);
+	(!(param->flags & MINUS) ? ft_width_octal(param) : 0);
+	(param->flags & HASHTAG ? ft_hashtag_octal(param) : 0);
+	(!(arg == 0 && param->precision_on && param->precision == 0) ? ft_precision_nbr(param) : 0);
+	(param->flags & MINUS ? ft_width_octal(param) : 0);
+	(arg != 0 && param->arg_str != NULL ? ft_strdel(&param->arg_str) : 0);
 	return (1);
 }

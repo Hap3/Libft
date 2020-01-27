@@ -19,8 +19,8 @@
 typedef struct	s_gnl
 {
 	int			ret_read;
-	t_list		*fd_save;
-	t_list		*current_fd;
+	t_list		*fd_list;
+	t_list		*fd;
 }				t_gnl;
 
 typedef struct	s_fd

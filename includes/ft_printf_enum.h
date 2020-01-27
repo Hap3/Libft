@@ -13,13 +13,13 @@
 #ifndef FT_PRINTF_ENUM_H
 # define FT_PRINTF_ENUM_H
 
-enum				e_flags
+enum				e_param
 {
 	HASHTAG = 1,
-	PLUS = 1 << 1,
-	MINUS = 1 << 2,
-	ZERO = 1 << 3,
-	SPACE = 1 << 4,
+	PLUS = 2,
+	MINUS = 4,
+	ZERO = 8,
+	SPACE = 16,
 };
 
 enum				e_size

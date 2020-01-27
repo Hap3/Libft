@@ -18,16 +18,16 @@ static void		ft_width_unsigned(t_param *param)
 	char	c;
 	int		i;
 
-	tmp = LEN;
+	tmp = param->len_param;
 	i = 0;
-	if (WIDTH <= LEN || WIDTH <= PRECISION)
+	if (param->width <= param->len_param || param->width <= param->precision)
 		return ;
-	(PRECISION > LEN ? tmp = PRECISION : tmp);
-	if (FLAGS & ZERO)
+	(param->precision > param->len_param ? tmp = param->precision : tmp);
+	if (param->flags & ZERO)
 		c = '0';
 	else
 		c = ' ';
-	while (i < WIDTH - tmp)
+	while (i < param->width - tmp)
 	{
 		ft_buffer(c, param);
 		i++;
@@ -40,15 +40,15 @@ int				ptr_unsigned(va_list ap, t_param *param)
 	unsigned long long	arg;
 
 	base = "0123456789";
-	if ((TYPE & D || TYPE & U) && (SIZES ^ LL))
-		SIZES = SIZES | L;
+	if ((param->type & D || param->type & U) && (param->sizes ^ LL))
+		param->sizes = param->sizes | L;
 	arg = (unsigned long long)ft_cast_unbr(ap, param);
-	ARG_STR = ft_itoa_base_char(arg, base);
-	LEN = ft_strlen(ARG_STR);
-	(!(FLAGS & MINUS) ? ft_width_unsigned(param) : 0);
-	if (!((PRECISION == 0) && arg == 0 && PRE_ON == 1))
+	param->arg_str = ft_itoa_base_char(arg, base);
+	param->len_param = ft_strlen(param->arg_str);
+	(!(param->flags & MINUS) ? ft_width_unsigned(param) : 0);
+	if (!((param->precision == 0) && arg == 0 && param->precision_on == 1))
 		ft_precision_nbr(param);
-	(FLAGS & MINUS ? ft_width_unsigned(param) : 0);
-	(arg != 0 && ARG_STR != NULL ? ft_strdel(&ARG_STR) : 0);
+	(param->flags & MINUS ? ft_width_unsigned(param) : 0);
+	(arg != 0 && param->arg_str != NULL ? ft_strdel(&param->arg_str) : 0);
 	return (1);
 }

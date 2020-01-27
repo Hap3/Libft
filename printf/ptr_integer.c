@@ -18,31 +18,31 @@ static void		ft_width_integer(t_param *param)
 	int		i;
 	int		tmp;
 
-	tmp = LEN;
+	tmp = param->len_param;
 	i = 0;
-	(WIDTH && FLAGS & SPACE ? WIDTH -= 1 : 0);
-	if (WIDTH <= LEN || WIDTH <= PRECISION)
+	(param->width && param->flags & SPACE ? param->width -= 1 : 0);
+	if (param->width <= param->len_param || param->width <= param->precision)
 		return ;
-	(PRECISION > LEN ? tmp = PRECISION : tmp);
-	(NEG == 1 || (NEG == 0 && FLAGS & PLUS) || FLAGS & HASHTAG ? tmp++ : 0);
-	if (FLAGS & ZERO)
+	(param->precision > param->len_param ? tmp = param->precision : tmp);
+	(param->neg_param == 1 || (param->neg_param == 0 && param->flags & PLUS) || param->flags & HASHTAG ? tmp++ : 0);
+	if (param->flags & ZERO)
 		c = '0';
 	else
 		c = ' ';
-	while (i++ < WIDTH - tmp)
+	while (i++ < param->width - tmp)
 		ft_buffer(c, param);
 }
 
 static void		ft_sign_integer(t_param *param)
 {
-	(NEG == 0 && FLAGS & PLUS ? ft_buffer('+', param) : 0);
-	(NEG == 1 ? ft_buffer('-', param) : 0);
+	(param->neg_param == 0 && param->flags & PLUS ? ft_buffer('+', param) : 0);
+	(param->neg_param == 1 ? ft_buffer('-', param) : 0);
 }
 
 static void		ft_space_integer(t_param *param, unsigned long long arg)
 {
-	(FLAGS & SPACE && NEG == 0 ? ft_buffer(' ', param) : 0);
-	(PRE_ON && PRECISION == 0 && arg == 0 && WIDTH > 0 ?
+	(param->flags & SPACE && param->neg_param == 0 ? ft_buffer(' ', param) : 0);
+	(param->precision_on && param->precision == 0 && arg == 0 && param->width > 0 ?
 	ft_buffer(' ', param) : 0);
 }
 
@@ -52,20 +52,20 @@ int				ptr_integer(va_list ap, t_param *param)
 	unsigned long long	arg;
 
 	base = "0123456789";
-	((TYPE & D || TYPE & U) && (SIZES ^ LL) ? SIZES = SIZES ^ L : 0);
+	((param->type & D || param->type & U) && (param->sizes ^ LL) ? param->sizes = param->sizes ^ L : 0);
 	arg = (unsigned long long)ft_cast_nbr(ap, param);
-	ARG_STR = ft_itoa_base_char(arg, base);
-	LEN = ft_strlen(ARG_STR);
+	param->arg_str = ft_itoa_base_char(arg, base);
+	param->len_param = ft_strlen(param->arg_str);
 	ft_space_integer(param, arg);
-	if (!(FLAGS & MINUS))
+	if (!(param->flags & MINUS))
 	{
-		(FLAGS & ZERO ? ft_sign_integer(param) : 0);
+		(param->flags & ZERO ? ft_sign_integer(param) : 0);
 		ft_width_integer(param);
 	}
-	(!(FLAGS & ZERO) ? ft_sign_integer(param) : 0);
-	(!((PRECISION == 0) && arg == 0 && PRE_ON == 1) ?
+	(!(param->flags & ZERO) ? ft_sign_integer(param) : 0);
+	(!((param->precision == 0) && arg == 0 && param->precision_on == 1) ?
 	ft_precision_nbr(param) : 0);
-	(FLAGS & MINUS ? ft_width_integer(param) : 0);
-	(arg != 0 && ARG_STR != NULL ? ft_strdel(&ARG_STR) : 0);
+	(param->flags & MINUS ? ft_width_integer(param) : 0);
+	(arg != 0 && param->arg_str != NULL ? ft_strdel(&param->arg_str) : 0);
 	return (1);
 }

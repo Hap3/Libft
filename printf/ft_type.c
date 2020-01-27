@@ -14,14 +14,14 @@
 
 static void		ft_end_type(t_param *param)
 {
-	FLAGS = FLAGS & 0;
-	WIDTH = WIDTH & 0;
-	SIZES = SIZES & 0;
-	PRECISION = PRECISION & 0;
-	TYPE = TYPE & 0;
-	LEN = LEN & 0;
-	NEG = NEG & 0;
-	PRE_ON = PRE_ON & 0;
+	param->flags = param->flags & 0;
+	param->width = param->width & 0;
+	param->sizes = param->sizes & 0;
+	param->precision = param->precision & 0;
+	param->type = param->type & 0;
+	param->len_param = param->len_param & 0;
+	param->neg_param = param->neg_param & 0;
+	param->precision_on = param->precision_on & 0;
 }
 
 int				ft_type(va_list ap, t_param *param)
@@ -35,12 +35,12 @@ int				ft_type(va_list ap, t_param *param)
 
 	i = 0;
 	ret = 0;
-	if (TYPE & pct)
+	if (param->type & pct)
 		ptr_pct(param);
 	else
 		while (i < 17)
 		{
-			if (TYPE & (1 << i))
+			if (param->type & (1 << i))
 				ret = ftab[i](ap, param);
 			i++;
 		}

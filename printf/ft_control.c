@@ -17,11 +17,11 @@ static int	ft_check_type(const char *format, t_param *param, int *type)
 	int i;
 
 	i = 0;
-	while (format[INDEX] && TYPES_LIST[i])
+	while (format[param->index] && TYPES_LIST[i])
 	{
-		if (TYPES_LIST[i] == format[INDEX])
+		if (TYPES_LIST[i] == format[param->index])
 		{
-			INDEX++;
+			param->index++;
 			*type = *type | (1 << i);
 			return (1);
 		}
@@ -50,7 +50,7 @@ static void	ft_check_options(const char *format, t_param *param,
 	int		i;
 	int		j;
 
-	i = INDEX;
+	i = param->index;
 	while (format[i] != '\0' && ft_check_char(format[i], options_list) != -1)
 	{
 		j = ft_check_char(format[i], options_list);
@@ -62,7 +62,7 @@ static void	ft_check_options(const char *format, t_param *param,
 		}
 		i++;
 	}
-	INDEX = i;
+	param->index = i;
 	return ;
 }
 
@@ -71,20 +71,20 @@ static void	ft_check_size(va_list ap, const char *format, t_param *param,
 {
 	int		i;
 
-	i = INDEX;
-	if (format[INDEX] == '*')
+	i = param->index;
+	if (format[param->index] == '*')
 	{
 		*value = va_arg(ap, int);
-		INDEX++;
+		param->index++;
 	}
 	else
 	{
 		while (format[i] != '\0' && ft_isdigit(format[i]))
 			i++;
-		if (i != INDEX)
+		if (i != param->index)
 		{
-			*value = ft_atoi(&format[INDEX]);
-			INDEX = i;
+			*value = ft_atoi(&format[param->index]);
+			param->index = i;
 			return ;
 		}
 	}
@@ -93,15 +93,15 @@ static void	ft_check_size(va_list ap, const char *format, t_param *param,
 
 int			ft_control(va_list ap, const char *format, t_param *param)
 {
-	if (format[INDEX] != '%')
+	if (format[param->index] != '%')
 		return (0);
-	INDEX++;
+	param->index++;
 	ft_check_options(format, param, FLAGS_LIST, &(param->flags));
 	ft_check_size(ap, format, param, &(param->width));
-	if (format[INDEX] == '.')
+	if (format[param->index] == '.')
 	{
-		INDEX++;
-		PRE_ON = 1;
+		param->index++;
+		param->precision_on = 1;
 		ft_check_size(ap, format, param, &(param->precision));
 	}
 	ft_check_options(format, param, SIZES_LIST, &(param->sizes));

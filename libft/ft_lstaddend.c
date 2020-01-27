@@ -23,7 +23,7 @@ void	ft_lstaddend(t_list **alst, t_list *new)
 	if (!tmp)
 	{
 		*alst = new;
-		return;
+		return ;
 	}
 	while (tmp->next)
 		tmp = tmp->next;

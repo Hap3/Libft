@@ -14,10 +14,10 @@
 
 static int				ft_two_oct(wchar_t arg, t_param *param)
 {
-	LEN = 2;
-	if (!(FLAGS & MINUS))
+	param->len_param = 2;
+	if (!(param->flags & MINUS))
 		ft_width_char(param);
-	if ((int)MB_CUR_MAX < LEN)
+	if ((int)MB_CUR_MAX < param->len_param)
 		return (-1);
 	ft_buffer((char)(0xC0 | ((arg >> 6) & 0x1F)), param);
 	ft_buffer((char)(0x80 | (arg & 0x3F)), param);
@@ -26,10 +26,10 @@ static int				ft_two_oct(wchar_t arg, t_param *param)
 
 static int				ft_three_oct(wchar_t arg, t_param *param)
 {
-	LEN = 3;
-	if (!(FLAGS & MINUS))
+	param->len_param = 3;
+	if (!(param->flags & MINUS))
 		ft_width_char(param);
-	if ((int)MB_CUR_MAX < LEN)
+	if ((int)MB_CUR_MAX < param->len_param)
 		return (-1);
 	ft_buffer((char)(0xE0 | ((arg >> 12) & 0x1F)), param);
 	ft_buffer((char)(0x80 | ((arg >> 6) & 0x3F)), param);
@@ -39,10 +39,10 @@ static int				ft_three_oct(wchar_t arg, t_param *param)
 
 static int				ft_four_oct(wchar_t arg, t_param *param)
 {
-	LEN = 4;
-	if ((int)MB_CUR_MAX < LEN)
+	param->len_param = 4;
+	if ((int)MB_CUR_MAX < param->len_param)
 		return (-1);
-	if (!(FLAGS & MINUS))
+	if (!(param->flags & MINUS))
 		ft_width_char(param);
 	ft_buffer((char)(0xF0 | ((arg >> 18) & 0x1F)), param);
 	ft_buffer((char)(0x80 | ((arg >> 12) & 0x3F)), param);
@@ -58,8 +58,8 @@ static int				ft_size_uni_char(wchar_t arg, t_param *param, int a)
 	ret = 0;
 	if (a <= 8)
 	{
-		LEN = 1;
-		if (!(FLAGS & MINUS))
+		param->len_param = 1;
+		if (!(param->flags & MINUS))
 			ft_width_char(param);
 		ft_buffer(arg, param);
 	}
@@ -85,7 +85,7 @@ int						ptr_c_uni(va_list ap, t_param *param)
 		a++;
 	if (ft_size_uni_char(arg, param, a) == -1)
 		return (-1);
-	if (FLAGS & MINUS)
+	if (param->flags & MINUS)
 		ft_width_char(param);
 	return (1);
 }

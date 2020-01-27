@@ -25,23 +25,6 @@
 # define SIZES_LIST		"hhlljz"
 # define TYPES_LIST		"sSdDioOuUxXpcCbw%"
 
-# define INDEX			param->index
-# define RETURN			param->return_index
-# define SAVE			param->index_save
-# define BUFFER			param->buffer
-
-# define ARG_STR		param->arg_str
-# define FLAGS			param->flags
-# define WIDTH			param->width
-# define PRECISION		param->precision
-# define PRE_ON			param->precision_on
-# define SIZES			param->sizes
-# define TYPE			param->type
-# define FD				param->fd
-
-# define LEN			param->len_param
-# define NEG			param->neg_param
-
 typedef struct			s_param
 {
 	int		index;

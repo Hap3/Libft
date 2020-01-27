@@ -14,6 +14,6 @@
 
 int		ptr_w(va_list ap, t_param *param)
 {
-	FD = va_arg(ap, int);
+	param->fd = va_arg(ap, int);
 	return (1);
 }

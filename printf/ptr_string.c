@@ -19,15 +19,15 @@ static void		ft_width_string(t_param *param)
 	char	c;
 
 	i = 0;
-	tmp = LEN;
-	(tmp > PRECISION && PRE_ON && PRECISION >= 0 ? tmp = PRECISION : 0);
-	if (WIDTH <= tmp)
+	tmp = param->len_param;
+	(tmp > param->precision && param->precision_on && param->precision >= 0 ? tmp = param->precision : 0);
+	if (param->width <= tmp)
 		return ;
-	if (FLAGS & ZERO)
+	if (param->flags & ZERO)
 		c = '0';
 	else
 		c = ' ';
-	while (i < WIDTH - tmp)
+	while (i < param->width - tmp)
 	{
 		ft_buffer(c, param);
 		i++;
@@ -36,13 +36,13 @@ static void		ft_width_string(t_param *param)
 
 int				ptr_string(va_list ap, t_param *param)
 {
-	if (SIZES & L)
+	if (param->sizes & L)
 		return (ptr_string_uni(ap, param));
-	ARG_STR = (char *)va_arg(ap, void*);
-	(ARG_STR == NULL ? ARG_STR = "(null)" : 0);
-	LEN = ft_strlen(ARG_STR);
-	(!(FLAGS & MINUS) ? ft_width_string(param) : 0);
-	ft_precision_str(param, ARG_STR);
-	(FLAGS & MINUS ? ft_width_string(param) : 0);
+	param->arg_str = (char *)va_arg(ap, void*);
+	(param->arg_str == NULL ? param->arg_str = "(null)" : 0);
+	param->len_param = ft_strlen(param->arg_str);
+	(!(param->flags & MINUS) ? ft_width_string(param) : 0);
+	ft_precision_str(param, param->arg_str);
+	(param->flags & MINUS ? ft_width_string(param) : 0);
 	return (1);
 }

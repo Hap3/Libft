@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_clean_flags.c                                   :+:      :+:    :+:   */
+/*   ft_clean_param->flags.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cpaquet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,7 +14,7 @@
 
 void		ft_clean_flags(t_param *param)
 {
-	((FLAGS & MINUS) && (FLAGS & ZERO) ? FLAGS = FLAGS ^ ZERO : 0);
-	((FLAGS & PLUS) && (FLAGS & SPACE) ? FLAGS = FLAGS ^ SPACE : 0);
-	(PRE_ON && (FLAGS & ZERO) && !(TYPE & pct) ? FLAGS = FLAGS ^ ZERO : 0);
+	((param->flags & MINUS) && (param->flags & ZERO) ? param->flags = param->flags ^ ZERO : 0);
+	((param->flags & PLUS) && (param->flags & SPACE) ? param->flags = param->flags ^ SPACE : 0);
+	(param->precision_on && (param->flags & ZERO) && !(param->type & pct) ? param->flags = param->flags ^ ZERO : 0);
 }

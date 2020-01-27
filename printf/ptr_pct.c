@@ -18,12 +18,12 @@ static void		ft_width_pct(t_param *param)
 	char	c;
 
 	i = 0;
-	(WIDTH >= 1 ? WIDTH-- : 0);
-	if (FLAGS & ZERO)
+	(param->width >= 1 ? param->width-- : 0);
+	if (param->flags & ZERO)
 		c = '0';
 	else
 		c = ' ';
-	while (i < WIDTH)
+	while (i < param->width)
 	{
 		ft_buffer(c, param);
 		i++;
@@ -32,8 +32,8 @@ static void		ft_width_pct(t_param *param)
 
 int				ptr_pct(t_param *param)
 {
-	(!(FLAGS & MINUS) ? ft_width_pct(param) : 0);
+	(!(param->flags & MINUS) ? ft_width_pct(param) : 0);
 	ft_buffer('%', param);
-	(FLAGS & MINUS ? ft_width_pct(param) : 0);
+	(param->flags & MINUS ? ft_width_pct(param) : 0);
 	return (1);
 }

@@ -17,10 +17,10 @@ static void		ft_width_p(t_param *param)
 	int		i;
 
 	i = 0;
-	WIDTH -= 2;
-	if (WIDTH < LEN)
+	param->width -= 2;
+	if (param->width < param->len_param)
 		return ;
-	while (i < WIDTH - LEN)
+	while (i < param->width - param->len_param)
 	{
 		ft_buffer(' ', param);
 		i++;
@@ -42,13 +42,13 @@ int				ptr_p(va_list ap, t_param *param)
 	i = 0;
 	base = "0123456789abcdef";
 	arg = va_arg(ap, unsigned long long);
-	ARG_STR = ft_itoa_base_char(arg, base);
-	LEN = ft_strlen(ARG_STR);
-	(!(FLAGS & MINUS) ? ft_width_p(param) : 0);
+	param->arg_str = ft_itoa_base_char(arg, base);
+	param->len_param = ft_strlen(param->arg_str);
+	(!(param->flags & MINUS) ? ft_width_p(param) : 0);
 	ft_hashtag_p(param);
-	while (ARG_STR[i])
-		ft_buffer(ARG_STR[i++], param);
-	(FLAGS & MINUS ? ft_width_p(param) : 0);
-	(arg != 0 && ARG_STR != NULL ? ft_strdel(&ARG_STR) : 0);
+	while (param->arg_str[i])
+		ft_buffer(param->arg_str[i++], param);
+	(param->flags & MINUS ? ft_width_p(param) : 0);
+	(arg != 0 && param->arg_str != NULL ? ft_strdel(&param->arg_str) : 0);
 	return (1);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_precision.c                                     :+:      :+:    :+:   */
+/*   ft_param->precision.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cpaquet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,17 +17,17 @@ void		ft_precision_nbr(t_param *param)
 	int		i;
 	int		j;
 
-	i = PRECISION;
+	i = param->precision;
 	j = 0;
-	(i < LEN ? i = LEN : i);
-	while (i > LEN)
+	(i < param->len_param ? i = param->len_param : i);
+	while (i > param->len_param)
 	{
 		ft_buffer('0', param);
 		i--;
 	}
 	while (i)
 	{
-		ft_buffer(ARG_STR[j++], param);
+		ft_buffer(param->arg_str[j++], param);
 		i--;
 	}
 }
@@ -38,10 +38,10 @@ void		ft_precision_str(t_param *param, char *arg)
 	int		j;
 
 	i = 0;
-	if (PRECISION < LEN && PRE_ON && PRECISION >= 0)
-		j = PRECISION;
+	if (param->precision < param->len_param && param->precision_on && param->precision >= 0)
+		j = param->precision;
 	else
-		j = LEN;
+		j = param->len_param;
 	while (i < j)
 		ft_buffer(arg[i++], param);
 }

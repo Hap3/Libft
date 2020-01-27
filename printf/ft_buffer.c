@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_buffer.c                                        :+:      :+:    :+:   */
+/*   ft_param->buffer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cpaquet <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,11 +14,11 @@
 
 void		ft_buffer(const char c, t_param *param)
 {
-	BUFFER[RETURN % BUFF_SIZE] = c;
-	RETURN++;
-	if (RETURN != 0 && RETURN % BUFF_SIZE == 0)
+	param->buffer[param->return_index % BUFF_SIZE] = c;
+	param->return_index++;
+	if (param->return_index != 0 && param->return_index % BUFF_SIZE == 0)
 	{
-		write(FD, BUFFER, BUFF_SIZE);
-		ft_bzero(BUFFER, BUFF_SIZE);
+		write(param->fd, param->buffer, BUFF_SIZE);
+		ft_bzero(param->buffer, BUFF_SIZE);
 	}
 }
